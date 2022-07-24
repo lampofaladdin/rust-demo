@@ -108,53 +108,87 @@
 //     println!("{:?}", map)
 // }
 
-use std::collections::HashMap;
+// use std::collections::HashMap;
+
+// /**
+//  * 平均数，需要转换成f64
+//  */
+// fn get_average(num_array: &Vec<i32>) -> f64 {
+//     let sum: i32 = num_array.iter().sum();
+//     let f_sum = sum as f64;
+//     let average = f_sum / num_array.len() as f64;
+//     println!("{}", average);
+//     f_sum
+// }
+
+// /**
+//  * sort方法会借用原数组，无法在下一个方法使用
+//  */
+// fn get_mid(mut num_array: Vec<i32>) -> i32 {
+//     num_array.sort_by(|a, b| a.cmp(b));
+//     let mid = num_array.iter().len() / 2;
+//     println!("{}", num_array[mid]);
+//     num_array[mid]
+// }
+
+// /**
+//  * 重复书最多的数字
+//  */
+// fn get_mod(num_array: Vec<i32>) -> i32 {
+//     let mut counter_map = HashMap::new();
+//     for num in num_array.iter() {
+//         let count = counter_map.entry(num).or_insert(0);
+//         *count += 1;
+//     }
+//     let mut max_repeat = 0;
+//     let mut current_num = 0;
+//     for (key, val) in counter_map.into_iter() {
+//         if val > max_repeat {
+//             max_repeat = val;
+//             current_num = *key;
+//         }
+//     }
+//     current_num
+// }
+
+// fn main() {
+//     let num_array = vec![1, 2, 3, 4, 5, 6, 1, 2, 3, 5, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2];
+//     let average = get_average(&num_array);
+//     // let mid = get_mid(num_array);
+//     let mod_num = get_mod(num_array);
+//     println!("{}", mod_num)
+// }
 
 /**
- * 平均数，需要转换成f64
+ * 完成  Pig Latin
  */
-fn get_average(num_array: &Vec<i32>) -> f64 {
-    let sum: i32 = num_array.iter().sum();
-    let f_sum = sum as f64;
-    let average = f_sum / num_array.len() as f64;
-    println!("{}", average);
-    f_sum
-}
+fn main() {
+    let on_words: [u8; 5] = [97, 111, 101, 105, 117];
 
-/**
- * sort方法会借用原数组，无法在下一个方法使用
- */
-fn get_mid(mut num_array: Vec<i32>) -> i32 {
-    num_array.sort_by(|a, b| a.cmp(b));
-    let mid = num_array.iter().len() / 2;
-    println!("{}", num_array[mid]);
-    num_array[mid]
-}
-
-/**
- * 重复书最多的数字
- */
-fn get_mod(num_array: Vec<i32>) -> i32 {
-    let mut counter_map = HashMap::new();
-    for num in num_array.iter() {
-        let count = counter_map.entry(num).or_insert(0);
-        *count += 1;
-    }
-    let mut max_repeat = 0;
-    let mut current_num = 0;
-    for (key, val) in counter_map.into_iter() {
-        if val > max_repeat {
-            max_repeat = val;
-            current_num = *key;
+    println!("请输入单词");
+    let mut str = String::new();
+    loop {
+        std::io::stdin().read_line(&mut str).expect("请输入单词");
+        str = str.trim().to_string();
+        let first_word = str.bytes().next();
+        match first_word {
+            Some(first_word) => {
+                if on_words.contains(&first_word) {
+                    str.push_str("-hay");
+                } else {
+                    let b = first_word.escape_ascii().to_string();
+                    str.push_str("-");
+                    str.push_str(&b);
+                    str.push_str("ay")
+                }
+                break;
+            }
+            None => {
+                println!("输入单词错误，请重新输入");
+                continue;
+            }
         }
     }
-    current_num
-}
-
-fn main() {
-    let num_array = vec![1, 2, 3, 4, 5, 6, 1, 2, 3, 5, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2];
-    let average = get_average(&num_array);
-    // let mid = get_mid(num_array);
-    let mod_num = get_mod(num_array);
-    println!("{}", mod_num)
+    println!("{}", "结果是：");
+    println!("{}", str);
 }
