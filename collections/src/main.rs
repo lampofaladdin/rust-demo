@@ -108,14 +108,53 @@
 //     println!("{:?}", map)
 // }
 
-fn get_average(num_array: Vec<i32>) -> i32 {
+use std::collections::HashMap;
+
+/**
+ * 平均数，需要转换成f64
+ */
+fn get_average(num_array: &Vec<i32>) -> f64 {
     let sum: i32 = num_array.iter().sum();
-    let average = sum.;
+    let f_sum = sum as f64;
+    let average = f_sum / num_array.len() as f64;
     println!("{}", average);
-    average
+    f_sum
+}
+
+/**
+ * sort方法会借用原数组，无法在下一个方法使用
+ */
+fn get_mid(mut num_array: Vec<i32>) -> i32 {
+    num_array.sort_by(|a, b| a.cmp(b));
+    let mid = num_array.iter().len() / 2;
+    println!("{}", num_array[mid]);
+    num_array[mid]
+}
+
+/**
+ * 重复书最多的数字
+ */
+fn get_mod(num_array: Vec<i32>) -> i32 {
+    let mut counter_map = HashMap::new();
+    for num in num_array.iter() {
+        let count = counter_map.entry(num).or_insert(0);
+        *count += 1;
+    }
+    let mut max_repeat = 0;
+    let mut current_num = 0;
+    for (key, val) in counter_map.into_iter() {
+        if val > max_repeat {
+            max_repeat = val;
+            current_num = *key;
+        }
+    }
+    current_num
 }
 
 fn main() {
-    let num_array = vec![1, 2, 3, 4, 5];
-    get_average(num_array);
+    let num_array = vec![1, 2, 3, 4, 5, 6, 1, 2, 3, 5, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2];
+    let average = get_average(&num_array);
+    // let mid = get_mid(num_array);
+    let mod_num = get_mod(num_array);
+    println!("{}", mod_num)
 }
