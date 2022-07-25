@@ -162,33 +162,63 @@
 /**
  * 完成  Pig Latin
  */
-fn main() {
-    let on_words: [u8; 5] = [97, 111, 101, 105, 117];
+// fn main() {
+//     let on_words: [u8; 5] = [97, 111, 101, 105, 117];
 
-    println!("请输入单词");
-    let mut str = String::new();
-    loop {
-        std::io::stdin().read_line(&mut str).expect("请输入单词");
-        str = str.trim().to_string();
-        let first_word = str.bytes().next();
-        match first_word {
-            Some(first_word) => {
-                if on_words.contains(&first_word) {
-                    str.push_str("-hay");
-                } else {
-                    let b = first_word.escape_ascii().to_string();
-                    str.push_str("-");
-                    str.push_str(&b);
-                    str.push_str("ay")
-                }
-                break;
-            }
-            None => {
-                println!("输入单词错误，请重新输入");
-                continue;
-            }
-        }
+//     println!("请输入单词");
+//     let mut str = String::new();
+//     loop {
+//         std::io::stdin().read_line(&mut str).expect("请输入单词");
+//         str = str.trim().to_string();
+//         let first_word = str.bytes().next();
+//         match first_word {
+//             Some(first_word) => {
+//                 if on_words.contains(&first_word) {
+//                     str.push_str("-hay");
+//                 } else {
+//                     let b = first_word.escape_ascii().to_string();
+//                     str.push_str("-");
+//                     str.push_str(&b);
+//                     str.push_str("ay")
+//                 }
+//                 break;
+//             }
+//             None => {
+//                 println!("输入单词错误，请重新输入");
+//                 continue;
+//             }
+//         }
+//     }
+//     println!("{}", "结果是：");
+//     println!("{}", str);
+// }
+use std::collections::HashMap;
+
+struct Company {
+    oragin: HashMap<String, Vec<String>>,
+}
+impl Company {
+    pub fn add_people(&mut self, department: String, name: String) {
+        self.oragin
+            .entry(department)
+            .or_insert(Vec::new())
+            .push(name);
     }
-    println!("{}", "结果是：");
-    println!("{}", str);
+    pub fn get_department_people(&mut self, department: &String) -> Option<&Vec<String>> {
+        self.oragin.get(department)
+    }
+    pub fn get_all_people(&mut self) {}
+}
+
+fn main() {
+    let mut company = Company {
+        oragin: HashMap::new(),
+    };
+    company.add_people("开发部".to_string(), "张三".to_string());
+    company.add_people("开发部".to_string(), "李四".to_string());
+    company.add_people("销售部".to_string(), "王五".to_string());
+    let department_people = company.get_department_people(&"开发部".to_string());
+    println!("{:?}", department_people);
+    println!("{:?}", company.oragin);
+
 }
