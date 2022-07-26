@@ -195,30 +195,42 @@
 use std::collections::HashMap;
 
 struct Company {
-    oragin: HashMap<String, Vec<String>>,
+    oragins: HashMap<String, Vec<String>>,
 }
 impl Company {
     pub fn add_people(&mut self, department: String, name: String) {
-        self.oragin
+        self.oragins
             .entry(department)
             .or_insert(Vec::new())
             .push(name);
     }
-    pub fn get_department_people(&mut self, department: &String) -> Option<&Vec<String>> {
-        self.oragin.get(department)
+    pub fn get_department_people(&mut self, department: &String) -> Vec<String> {
+        let result = match self.oragins.get(department) {
+            Some(peoples) => peoples.clone(),
+            None => Vec::new(),
+        };
+        result
     }
-    pub fn get_all_people(&mut self) {}
+    pub fn get_all_people(&mut self) -> Vec<&String> {
+        let mut peoples = Vec::new();
+        for oragin in self.oragins.iter() {
+            for people in oragin.1 {
+                peoples.push(people)
+            }
+        }
+        peoples
+    }
 }
 
 fn main() {
     let mut company = Company {
-        oragin: HashMap::new(),
+        oragins: HashMap::new(),
     };
     company.add_people("开发部".to_string(), "张三".to_string());
     company.add_people("开发部".to_string(), "李四".to_string());
     company.add_people("销售部".to_string(), "王五".to_string());
     let department_people = company.get_department_people(&"开发部".to_string());
+    let peoples = company.get_all_people();
     println!("{:?}", department_people);
-    println!("{:?}", company.oragin);
-
+    println!("{:?}", peoples);
 }
