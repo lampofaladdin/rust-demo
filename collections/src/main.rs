@@ -229,7 +229,7 @@ fn main() {
     company.add_people("开发部".to_string(), "张三".to_string());
     company.add_people("开发部".to_string(), "李四".to_string());
     company.add_people("销售部".to_string(), "王五".to_string());
-    let department_people = company.get_department_people(&"开发部".to_string());
+    let department_people = company.get_department_people(&"开发部".to_string());               
     let peoples = company.get_all_people();
     println!("{:?}", department_people);
     println!("{:?}", peoples);
