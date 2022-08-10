@@ -19,23 +19,33 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, content: &'a str) -> Vec<&'a str> {
-    let mut result_vec = Vec::new();
-    for line in content.lines() {
-        if line.contains(query) {
-            result_vec.push(line);
-        }
-    }
-    result_vec
+    // 原始代码
+    // let mut result_vec = Vec::new();
+    // for line in content.lines() {
+    //     if line.contains(query) {
+    //         result_vec.push(line);
+    //     }
+    // }
+    // result_vec
+    // 变更后的代码
+    content.lines().filter(|c| c.contains(query)).collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, content: &'a str) -> Vec<&'a str> {
-    let mut result_vec = Vec::new();
-    for line in content.lines() {
-        if line.to_lowercase().contains(&query.to_lowercase()) {
-            result_vec.push(line);
-        }
-    }
-    result_vec
+    // 原始代码
+    // let mut result_vec = Vec::new();
+    // for line in content.lines() {
+    //     if line.to_lowercase().contains(&query.to_lowercase()) {
+    //         result_vec.push(line);
+    //     }
+    // }
+    // result_vec
+
+    // 迭代器以后的代码
+    content
+        .lines()
+        .filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
+        .collect()
 }
 
 pub struct Config {
@@ -49,14 +59,30 @@ pub struct MyErr {
 }
 
 impl Config {
-    pub fn new(args: &Vec<String>) -> Result<Config, MyErr> {
+    pub fn new(mut args: std::env::Args) -> Result<Config, MyErr> {
         if args.len() < 3 {
             return Err(MyErr {
                 msg: String::from("参数不够"),
             });
         }
-        let query = args[1].clone();
-        let filename = args[2].clone();
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => {
+                return Err(MyErr {
+                    msg: String::from("没有获取到query参数"),
+                })
+            }
+        };
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => {
+                return Err(MyErr {
+                    msg: String::from("没有获取到filename参数"),
+                })
+            }
+        };
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
         Ok(Config {
             query,
@@ -89,6 +115,9 @@ Rust:
 safe, fast, productive.
 Pick three.
 Trust me.";
-        assert_eq!(vec!["Rust:", "Trust me."], search(query, contents));
+        assert_eq!(
+            vec!["Rust:", "Trust me."],
+            search_case_insensitive(query, contents)
+        );
     }
 }
