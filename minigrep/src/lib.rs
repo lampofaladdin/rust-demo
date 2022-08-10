@@ -1,7 +1,23 @@
+
+//! # My Crate
+//!
+//! `my_crate` is a collection of utilities to make performing certain
+//! calculations more convenient.
+
+
 use std::env;
 use std::error::Error;
 use std::fs;
 
+///
+/// 运行命令行函数
+/// # Example
+///
+/// ```
+/// use minigrep;
+/// let config = minigrep::Config{query: "hello".to_string(), filename: "hello.txt".to_string(), case_sensitive: false};
+/// minigrep::run(config);
+/// ```
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
 
