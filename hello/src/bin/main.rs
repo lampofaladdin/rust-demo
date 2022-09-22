@@ -1,20 +1,18 @@
+use hello::ThreadPool;
 use std::{
     fs,
     io::{Read, Write},
     net::{TcpListener, TcpStream},
-    thread,
     time::Duration,
 };
-use hello::ThreadPool;
 
 fn main() {
     let lisenter = TcpListener::bind("0.0.0.0:7878").unwrap();
-    let pool = ThreadPool::new(4);
+    let pools = ThreadPool::new(4);
 
     for stream in lisenter.incoming() {
         let stream = stream.unwrap();
-
-        pool::execute(|| {
+        pools.execute(|| {
             handle_connection(stream);
         });
     }
