@@ -10,12 +10,13 @@ fn main() {
     let lisenter = TcpListener::bind("0.0.0.0:7878").unwrap();
     let pools = ThreadPool::new(4);
 
-    for stream in lisenter.incoming() {
+    for stream in lisenter.incoming().take(2) {
         let stream = stream.unwrap();
         pools.execute(|| {
             handle_connection(stream);
         });
     }
+    println!("Shutting down.");
 }
 
 fn handle_connection(mut stream: TcpStream) {
