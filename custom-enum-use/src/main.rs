@@ -24,5 +24,8 @@ fn main() {
         Poor => println!("The poor have no money"),
     }
 
-    match work {}
+    match work {
+        Civilian => println!("The civilian is grate!"),
+        Solider => println!("the Solider is less than civilian"),
+    }
 }
