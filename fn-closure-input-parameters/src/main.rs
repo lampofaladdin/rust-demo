@@ -5,6 +5,35 @@ where
     f()
 }
 
+fn apply_to_3<F>(f: F) -> i32
+where
+    F: Fn(i32) -> i32,
+{
+    f(3)
+}
+
 fn main() {
-    println!("Hello, world!");
+    use std::mem;
+
+    let greeting = "hello";
+
+    let mut farewell = "goodbey".to_owned();
+
+    let diary = || {
+        println!("I said {}", greeting);
+
+        farewell.push_str("!!!");
+
+        println!("Then I screamed {} ", farewell);
+
+        println!("Now I can sleep");
+
+        mem::drop(farewell);
+    };
+
+    apply(diary);
+
+    let double = |x| 2 * x;
+
+    println!("3 doublued : {}", apply_to_3(double))
 }
