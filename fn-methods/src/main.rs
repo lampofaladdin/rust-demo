@@ -102,4 +102,5 @@ fn main() {
     // 报错！前面的 `destroy` 调用 “消耗了” `pair`
     // pair.destroy();
     // 试一试 ^ 将此行注释去掉
+    
 }
