@@ -27,10 +27,32 @@ fn main() {
 
     // let remainder = 43 % 5;
 
-    let y = {
-        let x = 3;
-        x + 1
-    };
+    // let y = {
+    //     let x = 3;
+    //     x + 1
+    // };
 
-    println!("The value of y is: {y}");
+    // println!("The value of y is: {y}");
+
+    // let x = 1;
+    // let _y = 2;
+
+    // let (a, mut b) = (true, false);
+    // println!("the a {},the b {}", a, b);
+    // b = true;
+    // assert_eq!(a, b);
+
+    // let a: u8 = 255;
+    // let b = a.saturating_add(20);
+    // println!("{}", b); // 19
+
+    // assert!(0.1 + 0.2 == 0.3);
+    // 只有字符串与数字类型支持range 写法
+    // for i in 1..=4 {
+    //     println!("{}", i);
+    // }
+
+    // for j in 'a'..='z' {
+    //     println!("{}", j);
+    // }
 }
