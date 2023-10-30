@@ -208,6 +208,9 @@
 trait MyTrait {
     type Output;
     fn f(&self) -> Self;
+    fn f2(&self) {
+        format!("helllo");
+    }
 }
 
 impl MyTrait for u32 {
@@ -230,6 +233,11 @@ impl MyTrait for String {
 fn my_function<T: MyTrait<Output = T>>(x: Box<T>) -> T {
     // could be discarded
     x.f()
+}
+
+fn my_function2<T: MyTrait<Output = T>>(x: Box<T>) {
+    // could be discarded
+    x.f2()
 }
 
 fn main() {
