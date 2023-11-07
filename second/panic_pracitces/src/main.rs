@@ -118,7 +118,7 @@ fn main() {
             println!("{}", s);
         }
         Err(e) => {
-            println!("{:?}", e.into(std::io::Error));
+            println!("{:?}", e.try_into());
         }
     }
 }
