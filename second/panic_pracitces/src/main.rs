@@ -289,15 +289,23 @@
 //     Ok(())
 // }
 
-// fn multiply(n1_str: &str, n2_str: &str) -> Result<i32, ParseIntError> {
-//     match n1_str.parse::<i32>() {
-//         Ok(n1) => match n2_str.parse::<i32>() {
-//             Ok(n2) => Ok(n1 * n2),
-//             Err(e) => Err(e),
-//         },
-//         Err(e) => Err(e),
-//     }
-// }
+use std::num::ParseIntError;
+
+fn multiply(n1_str: &str, n2_str: &str) -> Result<i32, ParseIntError> {
+    match n1_str.parse::<i32>() {
+        Ok(n1) => match n2_str.parse::<i32>() {
+            Ok(n2) => Ok(n1 * n2),
+            Err(e) => Err(e),
+        },
+        Err(e) => Err(e),
+    }
+}
+
+fn multiply1(n1_str: &str, n2_str: &str) -> Result<i32, ParseIntError> {
+    n1_str
+        .parse::<i32>()
+        .and_then(|x| n2_str.parse::<i32>().map(y | x + y))
+}
 
 // 第一时间没想起来应该怎么写，看了答案才知道，应该下次再试一遍
 
