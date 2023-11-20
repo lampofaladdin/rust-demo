@@ -36,13 +36,8 @@
 
 mod back_of_hose;
 mod front_of_house;
-pub use crate::back_of_hose::back_of_house;
-pub use crate::front_of_house::hosting;
 
-pub fn eat_at_restaurant() -> String {
-    crate::front_of_house::hosting::add_to_waitlist();
-
-    crate::back_of_house::cook_order();
-
-    String::from("yummy yummy!")
+fn demo() {
+    back_of_hose::back_of_house::cook_order();
+    front_of_house::hosting::add_to_waitlist();
 }
