@@ -15,10 +15,11 @@ impl Config {
         let query = args.get(1).unwrap().clone();
         let file_path = args.get(2).unwrap().clone();
 
-        let mut ignore_case = env::var("IGNORE_CASE").is_ok();
-        if !ignore_case {
-            ignore_case = args.get(3).unwrap_or(&"".to_string()).eq("IGNORE_CASE")
-        }
+        let ignore_case = if env::var("IGNORE_CASE").is_ok() {
+            env::var("IGNORE_CASE").is_ok_and(|x| x == "1")
+        } else {
+            args.get(3).unwrap_or(&"".to_string()).eq("IGNORE_CASE=1")
+        };
 
         Ok(Config {
             query,
