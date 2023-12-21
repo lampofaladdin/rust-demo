@@ -43,20 +43,56 @@
 //     println!("a next item = {:?}", a.tail());
 // }
 
+// use std::thread;
+// use std::time::Duration;
+
+// fn main() {
+//     let handle = thread::spawn(|| {
+//         for i in 1..10 {
+//             println!("hi number {} from the spawned thread!", i);
+//             thread::sleep(Duration::from_millis(1));
+//         }
+//     });
+
+//     for i in 1..5 {
+//         println!("hi number {} from the main thread!", i);
+//         thread::sleep(Duration::from_millis(1));
+//     }
+//     handle.join().unwrap();
+// }
+
+// use std::thread;
+
+// fn main() {
+//     let v = vec![1, 2, 3];
+
+//     let handle = thread::spawn(move || {
+//         println!("Here's a vector: {:?}", v);
+//     });
+
+//     handle.join().unwrap();
+
+//     // 下面代码会报错borrow of moved value: `v`
+//     println!("{:?}",v);
+// }
+
 use std::thread;
 use std::time::Duration;
-
 fn main() {
-    thread::spawn(|| {
-        for i in 1..10 {
-            println!("hi number {} from the spawned thread!", i);
-            thread::sleep(Duration::from_millis(1));
-        }
+    // 创建一个线程A
+    let new_thread = thread::spawn(move || {
+        // 再创建一个线程B
+        thread::spawn(move || {
+            loop {
+                println!("I am a new thread.");
+            }
+        })
     });
-    handle.join().unwrap();
 
-    for i in 1..5 {
-        println!("hi number {} from the main thread!", i);
-        thread::sleep(Duration::from_millis(1));
-    }
+    // 等待新创建的线程执行完成
+    new_thread.join().unwrap();
+    println!("Child thread is finish!");
+
+    // 睡眠一段时间，看子线程创建的子线程是否还在运行
+    thread::sleep(Duration::from_millis(1));
 }
